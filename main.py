@@ -55,9 +55,7 @@ async def check_rate_limit(req: CheckRequest):
     
     endpoint_storage = requests_db.setdefault(req.endpoint, {})
     
-    user_state = requests_db.setdefault(req.endpoint, {}).get(
-        req.user_id, {"count": 0, "window_start": window_start}
-    )
+    user_state = endpoint_storage.get(req.user_id, {"count": 0, "window_start": window_start})
     
     if user_state["window_start"] < window_start:
         user_state = {"count": 0, "window_start": window_start}
